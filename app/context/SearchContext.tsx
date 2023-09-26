@@ -1,31 +1,70 @@
 'use client';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+export interface ProductsData {
+     id: string,
+     title: string,
+     description: string,
+     price: number,
+     discountPercentage: number,
+     rating: number,
+     stock: number,
+     brand: string,
+     category: string,
+     thumbnail: string,
+     images: ['']
+}
 
-interface Search {
-     keyword: string;
+
+export interface ProductApiData {
+     products: ProductsData[],
+     total: number,
+     skip: number,
+     limit: number
 }
 
 interface SearchContextType {
-     keyword: Search | null;
-     setkeyword: any
+     keyword: string;
+     setkeyword: any;
+     products: ProductApiData | undefined;
 }
 
-const SearchContext = createContext<SearchContextType | undefined>(undefined);
+const StorageContext = createContext<SearchContextType | undefined>(undefined);
 
-export const SeachProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-     const [keyword, setkeyword] = useState<Search | null>(null);
+export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+     const [keyword, setkeyword] = useState('');
+     const [products, setproducts] = useState<ProductApiData | undefined>()
+
+     const getProducts = async () => {
+          let product = await fetch(`https://dummyjson.com/products/search?q=${keyword}`)
+          let result: ProductApiData = await product.json()
+          setproducts(result)
+     }
+
+     const getInitialProducts = async () => {
+          let product = await fetch(`https://dummyjson.com/products`)
+          let result: ProductApiData = await product.json()
+          setproducts(result)
+     }
+
+     useEffect(() => {
+          getProducts()
+     }, [keyword])
+
+     useEffect(() => {
+          getInitialProducts()
+     }, [])
 
 
      return (
-          <SearchContext.Provider value={{ keyword, setkeyword }}>
+          <StorageContext.Provider value={{ keyword, setkeyword, products }}>
                {children}
-          </SearchContext.Provider>
+          </StorageContext.Provider>
      );
 };
 
-export const useSearchKeyword = (): SearchContextType => {
-     const context = useContext(SearchContext);
+export const useStorageContext = (): SearchContextType => {
+     const context = useContext(StorageContext);
      if (context === undefined) {
           throw new Error('err');
      }

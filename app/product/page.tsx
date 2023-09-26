@@ -1,38 +1,23 @@
-import React, { useState } from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import ProductCard from '../components/ProductCard'
 import SearchBar from '../components/SearchBar'
+import { useStorageContext } from '../context/SearchContext'
 
-export interface ResultData {
-     id: string,
-     title: string,
-     description: string,
-     price: number,
-     discountPercentage: number,
-     rating: number,
-     stock: number,
-     brand: string,
-     category: string,
-     thumbnail: string,
-     images: ['']
-}
-
-interface ResultApiData {
-     products: ResultData[],
-     total: number,
-     skip: number,
-     limit: number
-}
-
-const ListProduct = async () => {
-     let product = await fetch(`https://dummyjson.com/products`)
-     let result: ResultApiData = await product.json()
+const ListProduct = () => {
+     const { products, keyword } = useStorageContext()
 
      return (
           <>
                <SearchBar />
-               {result.products.map((value, id) => <>
-                    <ProductCard key={id} product={value} />
-               </>)}
+               {
+                    products != undefined ?
+                         products.products.map((value, id) => <>
+                              <ProductCard key={id} product={value} />
+                         </>)
+                         :
+                         <div>Loading..</div>
+               }
           </>
      )
 }

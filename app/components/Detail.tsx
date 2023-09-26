@@ -1,9 +1,9 @@
 import React from 'react'
-import { ResultData } from '../product/page'
 import Image from 'next/image'
+import { ProductsData } from '../context/SearchContext'
 
 export interface ProductDetailData {
-     data: ResultData
+     data: ProductsData
 }
 
 const Detail: React.FC<ProductDetailData> = async ({ data }) => {
