@@ -1,18 +1,4 @@
 'use client';
-// import { createContext, useContext, useState } from "react";
-
-// const SearchContext = createContext({})
-
-// export const SearchContextProvider: React.FC<any> = ({ children }) => {
-//      const [keyword, setkeyword] = useState('');
-
-//      return (
-//           <SearchContext.Provider value={{ keyword, setkeyword }}>
-//                {children}
-//           </SearchContext.Provider>
-//      )
-// };
-
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 
