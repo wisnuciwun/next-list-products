@@ -14,7 +14,7 @@ const SearchBar = () => {
 
      return (
           <>
-               <input placeholder='Search your product here' type="text" value={keyword} onChange={(e) => setkeyword(e.target.value)} className='border-solid border-2 border-sky-500 rounded-md p-2 w-full' />
+               <input placeholder='Search your product' type="text" value={keyword} onChange={(e) => setkeyword(e.target.value)} className='border-solid border-2 border-sky-500 rounded-md p-2 w-full' />
           </>
      )
 }

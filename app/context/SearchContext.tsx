@@ -26,14 +26,15 @@ export interface ProductApiData {
 interface SearchContextType {
      keyword: string;
      setkeyword: any;
-     products: ProductApiData | undefined;
+     products: ProductApiData | null;
 }
 
-const StorageContext = createContext<SearchContextType | undefined>(undefined);
+const StorageContext = createContext<SearchContextType>({ keyword: '', setkeyword: () => { }, products: null });
 
 export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+
      const [keyword, setkeyword] = useState('');
-     const [products, setproducts] = useState<ProductApiData | undefined>()
+     const [products, setproducts] = useState<ProductApiData | null>(null)
 
      const getProducts = async () => {
           let product = await fetch(`https://dummyjson.com/products/search?q=${keyword}`)
@@ -42,7 +43,7 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
      }
 
      const getInitialProducts = async () => {
-          let product = await fetch(`https://dummyjson.com/products`)
+          let product = await fetch(`https://dummyjson.com/products?limit=10`)
           let result: ProductApiData = await product.json()
           setproducts(result)
      }
@@ -65,8 +66,5 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
 
 export const useStorageContext = (): SearchContextType => {
      const context = useContext(StorageContext);
-     if (context === undefined) {
-          throw new Error('err');
-     }
      return context;
 };

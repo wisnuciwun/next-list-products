@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import ProductCard from '../components/ProductCard'
 import SearchBar from '../components/SearchBar'
 import { useStorageContext } from '../context/SearchContext'
@@ -11,7 +11,7 @@ const ListProduct = () => {
           <>
                <SearchBar />
                {
-                    products != undefined ?
+                    products?.products != null ?
                          products.products.map((value, id) => <>
                               <ProductCard key={id} product={value} />
                          </>)
