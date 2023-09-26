@@ -2,12 +2,18 @@
 import Detail from '@/app/components/Detail';
 import { ResultData } from '@/app/product/page';
 import { useParams } from 'next/navigation';
-import React from 'react'
+import React, { use } from 'react'
 
-const ProductDetail = async () => {
+
+async function getDetailProduct(param: any): Promise<ResultData> {
+     const detailProductApi = await fetch(`https://dummyjson.com/products/${param}`)
+     const result: ResultData = await detailProductApi.json()
+     return result
+}
+
+const ProductDetail = () => {
      const param = useParams();
-     let productDetail = await fetch(`https://dummyjson.com/products/${param.slug}`)
-     let result: ResultData = await productDetail.json()
+     const result: ResultData = use(getDetailProduct(param.slug));
 
 
      return (
