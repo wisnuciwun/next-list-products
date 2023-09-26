@@ -5,7 +5,7 @@ import SearchBar from '../components/SearchBar'
 import { useStorageContext } from '../context/SearchContext'
 
 const ListProduct = () => {
-     const { products, keyword } = useStorageContext()
+     const { products } = useStorageContext()
 
      return (
           <>
