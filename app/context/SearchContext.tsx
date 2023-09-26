@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect, useDeferredValue, useTransition } from 'react';
 
 export interface ProductsData {
      id: string,
@@ -37,14 +37,13 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
      const [keyword, setkeyword] = useState('');
      const [products, setproducts] = useState<ProductApiData | null>(null)
      const [limit, setlimit] = useState(10)
-     // const [skip, setskip] = useState(0)
-     const [lastLimit, setlastLimit] = useState(10)
      const [bigproducts, setbigproducts] = useState<ProductApiData | null>(null)
-
+     const [isPending, startTransition] = useTransition()
+     const lastKeyword = useDeferredValue(keyword)
 
      const getProducts = async () => {
           if (keyword != '') {
-               let product = await fetch(`https://dummyjson.com/products/search?q=${keyword}`)
+               let product = await fetch(`https://dummyjson.com/products/search?q=${lastKeyword}`)
                let result: ProductApiData = await product.json()
                setproducts(result)
           }
@@ -65,8 +64,10 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
      }
 
      useEffect(() => {
-          getProducts()
-     }, [keyword])
+          startTransition(() => {
+               getProducts()
+          })
+     }, [lastKeyword])
 
      useEffect(() => {
           getInitialProducts()
