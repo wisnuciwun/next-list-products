@@ -15,12 +15,10 @@ const ListProduct = () => {
 
 
      return (
-          <div ref={scrollRef as React.RefObject<HTMLDivElement>} className="flex h-screen gap-3 items-center justify-center p-24 flex-wrap overflow-y-auto">
-
+          <div ref={scrollRef as React.RefObject<HTMLDivElement>} className="flex h-screen pt-10 pl-12 pr-12 pb-10 overflow-y-auto gap-3 items-center flex-wrap justify-center">
                {
                     products?.products != null ?
                          <>
-                              <SearchBar />
                               {
                                    products.products.map((value, id) => <>
                                         <ProductCard key={id} product={value} />
