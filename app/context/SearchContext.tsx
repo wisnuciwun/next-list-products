@@ -68,7 +68,9 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
      }
 
      useReportWebVitals((metric) => {
-          console.log('%cMETRIC', 'color: yellow; font-size: larger', metric)
+          if (metric.name == 'TTFB') {
+               console.log('%cMETRIC', 'color: yellow; font-size: larger', metric)
+          }
      })
 
      useEffect(() => {
