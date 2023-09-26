@@ -6,10 +6,10 @@ import ListProduct from "./product/page";
 export default function Home() {
   return (
     <main>
-      <div className="p-5">
-        <SearchBar />
-      </div>
       <StorageProvider>
+        <div className="p-5">
+          <SearchBar />
+        </div>
         <ListProduct />
       </StorageProvider>
     </main>
