@@ -23,8 +23,8 @@ interface ResultApiData {
 }
 
 const ListProduct = async () => {
-     const product = await fetch('https://dummyjson.com/products')
-     const result: ResultApiData = await product.json()
+     let product = await fetch('https://dummyjson.com/products')
+     let result: ResultApiData = await product.json()
 
      return (
           <>
