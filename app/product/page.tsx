@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import ProductCard from '../components/ProductCard'
 import SearchBar from '../components/SearchBar'
-import { useSearchKeyword } from '../context/SearchContext'
 
 export interface ResultData {
      id: string,
@@ -25,7 +24,6 @@ interface ResultApiData {
 }
 
 const ListProduct = async () => {
-     const { keyword } = useSearchKeyword();
      let product = await fetch(`https://dummyjson.com/products`)
      let result: ResultApiData = await product.json()
 
