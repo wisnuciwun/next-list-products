@@ -20,5 +20,7 @@ bun dev
 - Show detail of the clicked product
 - Infinite scroll with saved last of the list product
 - Search by keyword
+- Add sort by ascending and descending price
+- Add metric report on page Home (on console.log)
 
 
