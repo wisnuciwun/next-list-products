@@ -12,10 +12,8 @@ const ListProduct = () => {
           setlimit((prev: number) => prev + 10)
      });
 
-
-
      return (
-          <div ref={scrollRef as React.RefObject<HTMLDivElement>} className="flex h-screen pt-10 pl-12 pr-12 pb-10 overflow-y-auto gap-3 items-center flex-wrap justify-center">
+          <div ref={scrollRef as React.RefObject<HTMLDivElement>} className="flex h-screen pl-12 pr-12 pb-10 overflow-y-auto gap-3 items-center flex-wrap justify-center">
                {
                     products?.products != null ?
                          <>

@@ -1,5 +1,6 @@
 'use client';
 import { createContext, useContext, useState, ReactNode, useEffect, useDeferredValue, useTransition } from 'react';
+import { useReportWebVitals } from 'next/web-vitals'
 
 export interface ProductsData {
      id: string,
@@ -65,6 +66,10 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
           setproducts(endProduct)
           setbigproducts(endProduct)
      }
+
+     useReportWebVitals((metric) => {
+          console.log('METRIC', metric)
+     })
 
      useEffect(() => {
           startTransition(() => {
