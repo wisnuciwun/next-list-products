@@ -16,12 +16,17 @@ const ListProduct = () => {
 
      return (
           <div ref={scrollRef as React.RefObject<HTMLDivElement>} style={{ overflowY: 'scroll', height: '100vh' }} className="flex min-h-screen gap-3 items-center justify-center p-24 flex-wrap">
-               <SearchBar />
+
                {
                     products?.products != null ?
-                         products.products.map((value, id) => <>
-                              <ProductCard key={id} product={value} />
-                         </>)
+                         <>
+                              <SearchBar />
+                              {
+                                   products.products.map((value, id) => <>
+                                        <ProductCard key={id} product={value} />
+                                   </>)
+                              }
+                         </>
                          :
                          <div>Loading..</div>
                }

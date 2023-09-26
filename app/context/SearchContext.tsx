@@ -19,7 +19,7 @@ export interface ProductsData {
 export interface ProductApiData {
      products: ProductsData[],
      total: number,
-     // skip: number,
+     skip: number,
      limit: number,
 }
 
@@ -28,13 +28,16 @@ interface SearchContextType {
      setkeyword: any;
      products: ProductApiData | null;
      setlimit: any,
+     setsort: any,
+     // sort: string,
 }
 
-const StorageContext = createContext<SearchContextType>({ keyword: '', setkeyword: () => { }, products: null, setlimit: () => { } });
+const StorageContext = createContext<SearchContextType>({ keyword: '', setkeyword: () => { }, products: null, setlimit: () => { }, setsort: () => { } });
 
 export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
      const [keyword, setkeyword] = useState('');
+     const [sort, setsort] = useState('')
      const [products, setproducts] = useState<ProductApiData | null>(null)
      const [limit, setlimit] = useState(10)
      const [bigproducts, setbigproducts] = useState<ProductApiData | null>(null)
@@ -73,8 +76,20 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
           getInitialProducts()
      }, [limit])
 
+     useEffect(() => {
+          if (sort != '' && products != null) {
+               let prd = []
+               if (sort.toLocaleLowerCase() == 'descending') {
+                    prd = products?.products.sort((x, y) => x.price - y.price)
+               } else {
+                    prd = products?.products.sort((x, y) => y.price - x.price)
+               }
+               setproducts({ ...products, products: [...prd] })
+          }
+     }, [sort])
+
      return (
-          <StorageContext.Provider value={{ keyword, setkeyword, products, setlimit }}>
+          <StorageContext.Provider value={{ keyword, setkeyword, products, setlimit, setsort }}>
                {children}
           </StorageContext.Provider>
      );
