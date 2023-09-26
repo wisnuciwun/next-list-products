@@ -1,9 +1,9 @@
-import Image from 'next/image'
+import ListProduct from "./product/page";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      testing
+    <main className="flex min-h-screen gap-3 items-center justify-center p-24 flex-wrap">
+      <ListProduct />
     </main>
   )
 }
