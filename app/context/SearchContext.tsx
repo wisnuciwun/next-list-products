@@ -20,21 +20,26 @@ export interface ProductApiData {
      products: ProductsData[],
      total: number,
      skip: number,
-     limit: number
+     limit: number,
 }
 
 interface SearchContextType {
      keyword: string;
      setkeyword: any;
      products: ProductApiData | null;
+     setskip: any,
+     setlimit: any,
 }
 
-const StorageContext = createContext<SearchContextType>({ keyword: '', setkeyword: () => { }, products: null });
+const StorageContext = createContext<SearchContextType>({ keyword: '', setkeyword: () => { }, products: null, setlimit: () => { }, setskip: () => { } });
 
 export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
      const [keyword, setkeyword] = useState('');
      const [products, setproducts] = useState<ProductApiData | null>(null)
+     const [limit, setlimit] = useState(10)
+     const [skip, setskip] = useState(0)
+
 
      const getProducts = async () => {
           let product = await fetch(`https://dummyjson.com/products/search?q=${keyword}`)
@@ -43,7 +48,7 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
      }
 
      const getInitialProducts = async () => {
-          let product = await fetch(`https://dummyjson.com/products?limit=10`)
+          let product = await fetch(`https://dummyjson.com/products?limit=${limit}`)
           let result: ProductApiData = await product.json()
           setproducts(result)
      }
@@ -52,13 +57,18 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
           getProducts()
      }, [keyword])
 
+     // useEffect(() => {
+     //      getInitialProducts()
+     // }, [])
+
      useEffect(() => {
           getInitialProducts()
-     }, [])
+     }, [limit])
+
 
 
      return (
-          <StorageContext.Provider value={{ keyword, setkeyword, products }}>
+          <StorageContext.Provider value={{ keyword, setkeyword, products, setlimit, setskip }}>
                {children}
           </StorageContext.Provider>
      );
