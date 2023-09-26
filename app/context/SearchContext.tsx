@@ -68,7 +68,7 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
      }
 
      useReportWebVitals((metric) => {
-          console.log('METRIC', metric)
+          console.log('%cMETRIC', 'color: yellow; font-size: larger', metric)
      })
 
      useEffect(() => {
