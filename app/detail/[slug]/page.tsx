@@ -17,7 +17,7 @@ const ProductDetail = () => {
 
 
      return (
-          <div style={{ overflowY: 'scroll', height: '100vh' }} className="flex min-h-screen gap-3 items-center justify-center p-24 flex-wrap">
+          <div className="flex h-screen gap-3 items-center justify-center p-12 flex-wrap overflow-y-auto">
                <Detail data={result} />
           </div>
      )

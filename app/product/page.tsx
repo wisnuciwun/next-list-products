@@ -15,7 +15,7 @@ const ListProduct = () => {
 
 
      return (
-          <div ref={scrollRef as React.RefObject<HTMLDivElement>} style={{ overflowY: 'scroll', height: '100vh' }} className="flex min-h-screen gap-3 items-center justify-center p-24 flex-wrap">
+          <div ref={scrollRef as React.RefObject<HTMLDivElement>} className="flex h-screen gap-3 items-center justify-center p-24 flex-wrap overflow-y-auto">
 
                {
                     products?.products != null ?
