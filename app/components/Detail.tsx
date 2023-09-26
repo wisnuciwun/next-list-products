@@ -9,8 +9,8 @@ export interface ProductDetailData {
 const Detail: React.FC<ProductDetailData> = async ({ data }) => {
      return (
           <>
-               <section key={data.id} style={{ width: '100%', height: '100%' }} className='border-solid border-2 border-sky-500 rounded-md p-2'>
-                    <Image className='object-cover' style={{ height: '400px', width: '100%' }} width={320} height={80} alt={data.title} src={data.images[0]} />
+               <section key={data.id} className='border-solid border-2 border-sky-500 rounded-md p-2 w-full h-full'>
+                    <Image className='object-cover w-full h-[400px]' width={320} height={80} alt={data.title} src={data.images[0]} />
                     <div className='text-lg font-[500] mb-2 mt-2'>{data.title}</div>
                     <div className='text-sm flex justify-between mb-3'>
                          <span>Price {data.price}</span>
