@@ -7,7 +7,7 @@ import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
 
 const ListProduct = () => {
-     const { products, setlimit, setskip } = useStorageContext()
+     const { products, setlimit } = useStorageContext()
      const scrollRef = useBottomScrollListener(() => {
           setlimit((prev: number) => prev + 10)
      });

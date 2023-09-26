@@ -19,7 +19,7 @@ export interface ProductsData {
 export interface ProductApiData {
      products: ProductsData[],
      total: number,
-     skip: number,
+     // skip: number,
      limit: number,
 }
 
@@ -27,48 +27,53 @@ interface SearchContextType {
      keyword: string;
      setkeyword: any;
      products: ProductApiData | null;
-     setskip: any,
      setlimit: any,
 }
 
-const StorageContext = createContext<SearchContextType>({ keyword: '', setkeyword: () => { }, products: null, setlimit: () => { }, setskip: () => { } });
+const StorageContext = createContext<SearchContextType>({ keyword: '', setkeyword: () => { }, products: null, setlimit: () => { } });
 
 export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
      const [keyword, setkeyword] = useState('');
      const [products, setproducts] = useState<ProductApiData | null>(null)
      const [limit, setlimit] = useState(10)
-     const [skip, setskip] = useState(0)
+     // const [skip, setskip] = useState(0)
+     const [lastLimit, setlastLimit] = useState(10)
+     const [bigproducts, setbigproducts] = useState<ProductApiData | null>(null)
 
 
      const getProducts = async () => {
-          let product = await fetch(`https://dummyjson.com/products/search?q=${keyword}`)
-          let result: ProductApiData = await product.json()
-          setproducts(result)
+          if (keyword != '') {
+               let product = await fetch(`https://dummyjson.com/products/search?q=${keyword}`)
+               let result: ProductApiData = await product.json()
+               setproducts(result)
+          }
+          if (keyword == '' && bigproducts) {
+               setproducts(bigproducts)
+          }
      }
 
      const getInitialProducts = async () => {
-          let product = await fetch(`https://dummyjson.com/products?limit=${limit}`)
+          let product = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${limit - 10}`)
           let result: ProductApiData = await product.json()
-          setproducts(result)
+          let endProduct: ProductApiData = result
+          if (products != null) {
+               endProduct = { ...result, products: [...products.products, ...result.products] }
+          }
+          setproducts(endProduct)
+          setbigproducts(endProduct)
      }
 
      useEffect(() => {
           getProducts()
      }, [keyword])
 
-     // useEffect(() => {
-     //      getInitialProducts()
-     // }, [])
-
      useEffect(() => {
           getInitialProducts()
      }, [limit])
 
-
-
      return (
-          <StorageContext.Provider value={{ keyword, setkeyword, products, setlimit, setskip }}>
+          <StorageContext.Provider value={{ keyword, setkeyword, products, setlimit }}>
                {children}
           </StorageContext.Provider>
      );
