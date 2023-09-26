@@ -15,8 +15,8 @@ const Detail: React.FC<ProductDetailData> = async ({ data }) => {
                     <Carousel showThumbs emulateTouch>
                          {
                               data.images.map(value =>
-                                   <div>
-                                        <Image key={data.id} className='object-cover w-full h-[400px]' width={320} height={80} alt={data.title} src={value} />
+                                   <div key={data.id}>
+                                        <Image className='object-cover w-full h-[400px]' width={320} height={80} alt={data.title} src={value} />
                                    </div>)
                          }
                     </Carousel>
