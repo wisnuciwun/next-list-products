@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { ProductsData } from '../context/SearchContext'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import Rating from './Rating';
 
 export interface ProductDetailData {
      data: ProductsData
@@ -22,14 +23,16 @@ const Detail: React.FC<ProductDetailData> = async ({ data }) => {
                     </Carousel>
                     <div className='text-lg font-[500] mb-2 mt-2'>{data.title}</div>
                     <div className='text-sm flex justify-between mb-3'>
-                         <span>Price {data.price}</span>
+                         <span>Price ${data.price}</span>
                          <span>Discount {data.discountPercentage}%</span>
                     </div>
                     <div className='text-sm'>
+                         <div className='font-[500]'>Stock :</div>
+                         <div>{data.stock}</div>
                          <div className='font-[500]'>Brand :</div>
                          <div>{data.brand}</div>
                          <div className='font-[500]'>Rating :</div>
-                         <div>{data.rating}</div>
+                         <Rating rate={data.rating} />
                          <div className='font-[500]'>Description :</div>
                          <div>{data.description}</div>
                          <div className='font-[500]'>Category :</div>
