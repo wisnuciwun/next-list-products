@@ -1,15 +1,17 @@
 'use client'
 import React, { useEffect } from 'react'
 import ProductCard from '../components/ProductCard'
-import SearchBar from '../components/SearchBar'
+import SearchBar from '../components/HeaderBar'
 import { useStorageContext } from '../context/SearchContext'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 
 
 const ListProduct = () => {
-     const { products, setlimit } = useStorageContext()
+     const { products, setlimit, category } = useStorageContext()
      const scrollRef = useBottomScrollListener(() => {
-          setlimit((prev: number) => prev + 10)
+          if (category == '' || category == 'Remove filter') {
+               setlimit((prev: number) => prev + 10)
+          }
      });
 
      return (

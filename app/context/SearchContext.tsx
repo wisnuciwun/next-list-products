@@ -30,10 +30,11 @@ interface SearchContextType {
      products: ProductApiData | null;
      setlimit: any,
      setsort: any,
-     // sort: string,
+     category: string,
+     setcategory: any
 }
 
-const StorageContext = createContext<SearchContextType>({ keyword: '', setkeyword: () => { }, products: null, setlimit: () => { }, setsort: () => { } });
+const StorageContext = createContext<SearchContextType>({ keyword: '', setkeyword: null, products: null, setlimit: null, setsort: null, category: '', setcategory: null });
 
 export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
@@ -41,22 +42,23 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
      const [sort, setsort] = useState('')
      const [products, setproducts] = useState<ProductApiData | null>(null)
      const [limit, setlimit] = useState(10)
+     const [category, setcategory] = useState('')
      const [bigproducts, setbigproducts] = useState<ProductApiData | null>(null)
      const [isPending, startTransition] = useTransition()
      const lastKeyword = useDeferredValue(keyword)
 
-     const getProducts = async () => {
-          if (keyword != '') {
+     const getProductsByKeyword = async () => {
+          if (lastKeyword != '') {
                let product = await fetch(`https://dummyjson.com/products/search?q=${lastKeyword}`)
                let result: ProductApiData = await product.json()
                setproducts(result)
           }
-          if (keyword == '' && bigproducts) {
+          if (lastKeyword == '' && bigproducts) {
                setproducts(bigproducts)
           }
      }
 
-     const getInitialProducts = async () => {
+     const getProductsByPage = async () => {
           let product = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${limit - 10}`)
           let result: ProductApiData = await product.json()
           let endProduct: ProductApiData = result
@@ -67,6 +69,19 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
           setbigproducts(endProduct)
      }
 
+     const getProductsByCategory = async () => {
+          if (category != '') {
+               let product = await fetch(`https://dummyjson.com/products/category/${category}`)
+               let result: ProductApiData = await product.json()
+
+               if (category == 'Remove filter') {
+                    setproducts(bigproducts)
+               } else {
+                    setproducts(result)
+               }
+          }
+     }
+
      useReportWebVitals((metric) => {
           if (metric.name == 'TTFB') {
                console.log('%cMETRIC', 'color: yellow; font-size: larger', metric)
@@ -75,13 +90,17 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
 
      useEffect(() => {
           startTransition(() => {
-               getProducts()
+               getProductsByKeyword()
           })
      }, [lastKeyword])
 
      useEffect(() => {
-          getInitialProducts()
+          getProductsByPage()
      }, [limit])
+
+     useEffect(() => {
+          getProductsByCategory()
+     }, [category])
 
      useEffect(() => {
           if (sort != '' && products != null) {
@@ -96,7 +115,7 @@ export const StorageProvider: React.FC<{ children: ReactNode }> = ({ children })
      }, [sort])
 
      return (
-          <StorageContext.Provider value={{ keyword, setkeyword, products, setlimit, setsort }}>
+          <StorageContext.Provider value={{ keyword, setkeyword, products, setlimit, setsort, setcategory, category }}>
                {children}
           </StorageContext.Provider>
      );

@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductData> = ({ product }) => {
                               product.stock > 0 ?
                                    <span className="right-0 bottom-0 mb-2 absolute bg-green-100 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Available</span>
                                    :
-                                   <span className="right-0 bottom-0 mb-2 absolute bg-green-100 bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Empty stock</span>
+                                   <span className="right-0 bottom-0 mb-2 absolute bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Empty stock</span>
                          }
                     </div>
                     <div className='text-lg font-[500] mb-2 mt-2 line-clamp-1'>{product.title}</div>
